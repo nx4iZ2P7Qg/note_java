@@ -1,5 +1,10 @@
 package reflect;
 
+import java.lang.reflect.Array;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.Arrays;
+
 /**
  * @author DF
  */
@@ -7,6 +12,8 @@ public class ReflectionDemo {
     public static void main(String[] args) {
         // 5
         // 反射是指在程序运行期间发现更多的类及其属性的能力
+
+        new ReflectionDemo().function5();
     }
 
     public void function1() {
@@ -120,6 +127,67 @@ public class ReflectionDemo {
         // 参考key_Constructor_Method_Field
 
         // 5.7.4
-        // 利用反射查看编译时还不清楚的对象
+        // 利用反射查看编译时还不清楚的对象，以及通用的toString()方法
+        try {
+            Employee harry = new Employee("Harry Hacker", 35000, 10, 1, 1989);
+            Class cl = harry.getClass();
+            Field f = cl.getDeclaredField("name");
+            f.setAccessible(true);
+            Object v = f.get(harry);
+            System.out.println("v = " + v);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        // 5.7.5
+        // 使用反射编写泛型数组代码
+        int[] a = {1, 2, 3, 4, 5};
+        a = (int[]) goodCopyOf(a, 10);
+        System.out.println(Arrays.toString(a));
+
+        // 5.7.6
+        // 调用任意方法，不建议使用，invoke的参数及返回值都是Object，在测试时才能检查，且明显慢
+        try {
+            String s = "  a  ";
+            Method m = String.class.getMethod("trim");
+            System.out.println("函数指针" + m.invoke(s));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // 5.8
+        // 继承设计技巧
+        // 避免使用protected域，因为子类集合无限制，破坏封装，且同包可以访问
+        // protected方法比较有用
+    }
+
+    public static Object goodCopyOf(Object a, int newLength) {
+        Class cl = a.getClass();
+        if (!cl.isArray()) {
+            return null;
+        }
+        Class componentType = cl.getComponentType();
+        int length = Array.getLength(a);
+        Object newArray = Array.newInstance(componentType, newLength);
+        System.arraycopy(a, 0, newArray, 0, Math.min(length, newLength));
+        return newArray;
+    }
+}
+
+class Employee {
+    private String name;
+    private int Salary;
+    private int a;
+    private int b;
+    private int c;
+
+    public Employee(String name, int salary, int a, int b, int c) {
+        this.name = name;
+        Salary = salary;
+        this.a = a;
+        this.b = b;
+        this.c = c;
     }
 }
