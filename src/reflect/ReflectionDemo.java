@@ -156,7 +156,9 @@ public class ReflectionDemo {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
+    void function8() {
         // 5.8
         // 继承设计技巧
         // 避免使用protected域，因为子类集合无限制，破坏封装，且同包可以访问
@@ -178,14 +180,14 @@ public class ReflectionDemo {
 
 class Employee {
     private String name;
-    private int Salary;
+    private int salary;
     private int a;
     private int b;
     private int c;
 
     public Employee(String name, int salary, int a, int b, int c) {
         this.name = name;
-        Salary = salary;
+        this.salary = salary;
         this.a = a;
         this.b = b;
         this.c = c;
