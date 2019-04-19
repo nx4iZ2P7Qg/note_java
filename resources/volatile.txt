@@ -1,6 +1,6 @@
 参考：https://javarevisited.blogspot.sg/2011/06/volatile-keyword-java-example-tutorial.html
 
-此关键字告诉JAVA编译器和线程，不要缓存此值，问题从主内存中读取,所以，如果在分享变量时，读/存是原子性的，那么你可以定义变量为volatile
+此关键字告诉JAVA编译器和线程，不要缓存此值，总是从主内存中读取，所以，如果在分享变量时，读/存是原子性的，那么你可以定义变量为volatile
 JAVA5中除了自动装箱，枚举，范型，可变参数，还有一些内存模型的变化，叫做"happens-before"，这个变化保证了线程的变动可以被其他线程看到，解决了以前线程"leak through"的问题
 此关键字只适用于变量，保证了在读取变量前，任何的变动都会写入(happens-before)， By the way use of volatile keyword also prevents compiler or JVM from the reordering of code or moving away them from synchronization barrier.
 什么时候使用此关键字
